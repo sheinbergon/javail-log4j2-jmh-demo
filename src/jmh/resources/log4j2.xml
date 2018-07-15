@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR" shutdownHook="disable">
+    <Appenders>
+        <MemoryMappedFile name="MemoryMappedFile" fileName="${sys:java.io.tmpdir}/log4j2/mmap-benchmark.log">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss.SSS} [%t] %level{length=5} %c{1} - %msg%n</Pattern>
+            </PatternLayout>
+        </MemoryMappedFile>
+        <RollingRandomAccessFile name="RollingRandomAccessFile"
+                                 fileName="${sys:java.io.tmpdir}/log4j2/rolling-benchmark.log"
+                                 filePattern="${sys:java.io.tmpdir}/log4j2/rolling-benchmark-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss.SSS} [%t] %level{length=5} %c{1} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingRandomAccessFile>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %level{length=5} %c{1} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Logger level="INFO" name="MMap" additivity="false">
+            <AppenderRef ref="MemoryMappedFile"/>
+        </Logger>
+        <Logger level="INFO" name="Rolling" additivity="false">
+            <AppenderRef ref="RollingRandomAccessFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>
